@@ -1,0 +1,33 @@
+ManifestFileVersion: 0
+CRC: 3120052367
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 77225fcb66e714502bfe2515821d51b0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6d7a22b216ce4e25e7b95c9612606716
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+Assets:
+- Assets/Prefabs/AmazingSphere.prefab
+- Assets/Prefabs/FabulousCapsule.prefab
+Dependencies: []

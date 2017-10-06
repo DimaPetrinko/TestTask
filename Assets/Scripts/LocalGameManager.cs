@@ -6,4 +6,7 @@ public class LocalGameManager : MonoBehaviour
 {
     public AssetLoader assetLoader;
     public InputHandler inputHandler;
+
+    [HideInInspector]
+    public MeshObjectModel meshInstanceModel;
 }

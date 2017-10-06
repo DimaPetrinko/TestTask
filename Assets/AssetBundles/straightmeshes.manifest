@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3521078040
+CRC: 1173235891
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 418c5aff6f457eaf346c661983e2c6bc
+    Hash: e3a80e696b4217609be8f5cf467298fe
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 7cbc20d51cb013cef91a40dcbe43379b
+    Hash: ef756699dac9bf179ededf7d15d128e2
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,6 +24,10 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 19d5b6d106586e3458fd8b0b10a71c60, type: 3}
+- Class: 115
   Script: {instanceID: 0}
 Assets:
 - Assets/Prefabs/AwesomeCube.prefab

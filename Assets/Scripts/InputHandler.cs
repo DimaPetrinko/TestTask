@@ -19,7 +19,7 @@ public class InputHandler : MonoBehaviour
             {
                 int layer = hit.collider.gameObject.layer;
 
-                if (CheckLayer(spawnMask, layer)
+                if (CheckLayer(spawnMask, layer))
                 {
                     Debug.Log("can spawn on " + hit.collider.gameObject.name);
                     GloabalGameManager.instance.localGameManager.assetLoader.LoadAndInstantiate(hit.point);     //if conditions are met get started with the loading

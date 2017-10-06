@@ -1,10 +1,17 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 public class AssetBundleTools
 {
     [MenuItem("Assets/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
-        BuildPipeline.BuildAssetBundles("Assets/AssetBundles", BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
+        Caching.CleanCache();
+        string path = Application.dataPath + "/AssetBundles/";
+        if (!Directory.Exists(path))
+            Directory.CreateDirectory(path);
+        
+        BuildPipeline.BuildAssetBundles(path, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
     }
 }

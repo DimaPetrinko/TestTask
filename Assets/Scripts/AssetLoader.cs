@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AssetLoader : MonoBehaviour
 {
-    public LayerMask ignoreLayers;                                   //a layermask to avoid spawning the new mesh on top of the old mesh
     public string jsonFileName;                                     //pretty explanatory
 
     GameObject meshInstance;                                        //keeps track of the old mesh to then delete it
@@ -16,16 +15,9 @@ public class AssetLoader : MonoBehaviour
         meshBundleInfo = JsonHelper.getJsonArray<MeshBundleInfo>(jsonString);
     }
 
-    private void Update()
+    public void LoadAndInstantiate(Vector3 position)
     {
-        if (Input.GetButtonDown("Fire1") || Input.touchCount > 0)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);        //initializes a ray that shoots from the main camera to point
-            RaycastHit hit;                                                     //that is converted from screen space to world space
-            Physics.Raycast(ray, out hit, Mathf.Infinity, ~ignoreLayers.value);
-
-            StartCoroutine(InstantiateFromBundle(hit.point));                   //if conditions are met get started with the loading
-        }
+        StartCoroutine(InstantiateFromBundle(position));
     }
 
     IEnumerator InstantiateFromBundle(Vector3 position)
@@ -43,6 +35,7 @@ public class AssetLoader : MonoBehaviour
 
         position += Vector3.up * meshBundleInfo[randomIndex].offset;            //hacky way to avoid spawning halfway in the ground
         meshInstance = Instantiate(loadedObject, position, Quaternion.identity);//and finally, instantiate the asset
+        GloabalGameManager.instance.localGameManager.meshInstanceModel = meshInstance.GetComponent<MeshObjectModel>();
 
         bundle.Unload(false);                                                   //clean up after the deed is done. be careful to not unload assets in use!
     }

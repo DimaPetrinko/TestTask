@@ -59,6 +59,11 @@ public class MeshObjectController : MonoBehaviour
         else Debug.Log("Mesh object data is null");
     }
 
+    public void UpdateColor(Color color)
+    {
+        meshRenderer.sharedMaterial.color = color;
+    }
+
     private IEnumerator LoadDataFromRecources()
     {
         ResourceRequest request = Resources.LoadAsync<MeshObjectData>( "MeshObjectData/" + dataFileName);

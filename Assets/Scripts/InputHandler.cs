@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    public LayerMask spawnMask;                                                                                 //specifies where can the object be spawned
     public LayerMask MeshLayers;                                                                                //specifies which layers are the mesh layers
+
+    public delegate void ClickEvent(Vector3 point, int layer);                                                  //click event
+    public static event ClickEvent OnColliderHit;
 
     private void Update()
     {
@@ -19,6 +21,8 @@ public class InputHandler : MonoBehaviour
             {
                 int layer = hit.collider.gameObject.layer;
 
+                OnColliderHit(hit.point, layer);                                                                //firing the event
+                /*
                 if (CheckLayer(spawnMask, layer))
                 {
                     Debug.Log("can spawn on " + hit.collider.gameObject.name);
@@ -29,12 +33,13 @@ public class InputHandler : MonoBehaviour
                     //hit.collider.gameObject.GetComponent<MeshObjectModel>().AddClicks();
                     GloabalGameManager.instance.localGameManager.meshInstanceModel.AddClicks();
                 }
+                */
             }
-                
+
         }
     }
 
-    private bool CheckLayer(LayerMask mask, int layer)                                                          //returns true if the layer is included in the mask
+    public static bool CheckLayer(LayerMask mask, int layer)                                                          //returns true if the layer is included in the mask
     {
         return mask.value == (mask.value | (1 << layer));
     }

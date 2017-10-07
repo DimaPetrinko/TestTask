@@ -23,6 +23,7 @@ public class AssetLoader : MonoBehaviour
     IEnumerator InstantiateFromBundle(Vector3 position)
     {
         if (meshInstance != null) Destroy(meshInstance);                        //if there are a mesh, destroy it
+        Resources.UnloadUnusedAssets();
         int randomIndex = Random.Range(0, meshBundleInfo.Length);               //a random index for meshinfo array
         WWW www = WWW.LoadFromCacheOrDownload("file:///" + Application.dataPath + "/AssetBundles/" + meshBundleInfo[randomIndex].bundleName, 1);
         yield return www;                                                       //wait 'till it loads
@@ -37,6 +38,7 @@ public class AssetLoader : MonoBehaviour
         meshInstance = Instantiate(loadedObject, position, Quaternion.identity);//and finally, instantiate the asset
         GloabalGameManager.instance.localGameManager.meshInstanceModel = meshInstance.GetComponent<MeshObjectModel>();
 
-        bundle.Unload(false);                                                   //clean up after the deed is done. be careful to not unload assets in use!
+        bundle.Unload(false);                                                   //clean up after the deed is done. be careful to not unload assets in use,
+                                                                                //but keep in mind: this leaves copies!
     }
 }

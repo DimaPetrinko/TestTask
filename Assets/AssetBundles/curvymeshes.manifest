@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3243696116
+CRC: 1131700418
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2282f2b42bdf20081bba746a8ea0604f
+    Hash: 1fb093aa3b6e37f8ede2d896a73e952b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: fc8b20cc8308fd5f2bff16d473961595
+    Hash: 59a280737911b7b7838e6d1effc8de8c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -34,4 +34,5 @@ ClassTypes:
 Assets:
 - Assets/Prefabs/AmazingSphere.prefab
 - Assets/Prefabs/FabulousCapsule.prefab
+- Assets/Prefabs/PrettyCoolSphere.prefab
 Dependencies: []

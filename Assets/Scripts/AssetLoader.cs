@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AssetLoader : MonoBehaviour
 {
     public LayerMask spawnMask;                                     //specifies where can the object be spawned
-    public string jsonDirectory;
+    public string jsonDirectory;                                    //the name of the subdirectory where jsons are stored
     public string jsonFileName;                                     //pretty explanatory
 
     GameObject meshInstance;                                        //keeps track of the old mesh to then delete it
@@ -13,18 +12,18 @@ public class AssetLoader : MonoBehaviour
 
     private void Start()
     {
-        string jsonString = JsonReader.GetJsonString(Application.streamingAssetsPath + "/" + jsonDirectory + "/" + jsonFileName + ".json");
-        meshBundleInfo = JsonHelper.getJsonArray<MeshBundleInfo>(jsonString);
+        string jsonString = JsonHelper.GetJsonString(Application.streamingAssetsPath + "/" + jsonDirectory + "/" + jsonFileName + ".json");
+        meshBundleInfo = JsonHelper.GetJsonArray<MeshBundleInfo>(jsonString);
     }
 
     private void OnEnable()
     {
-        InputHandler.OnColliderHit += LoadAndInstantiate;
+        InputHandler.OnColliderHit += LoadAndInstantiate;           //subscribing to the click event...
     }
 
     private void OnDisable()
     {
-        InputHandler.OnColliderHit -= LoadAndInstantiate;
+        InputHandler.OnColliderHit -= LoadAndInstantiate;           //...and unsubscribing from it
     }
 
     public void LoadAndInstantiate(Vector3 position, int layer)
@@ -43,13 +42,13 @@ public class AssetLoader : MonoBehaviour
 
         AssetBundle bundle = www.assetBundle;
         AssetBundleRequest request = bundle.LoadAssetAsync(meshBundleInfo[randomIndex].assetName);
-        yield return request;                                                   //wait 'till it loads.. again
+        yield return request;                                                   //wait a lil bit more 
 
         GameObject loadedObject = request.asset as GameObject;
 
         position += Vector3.up * meshBundleInfo[randomIndex].offset;            //hacky way to avoid spawning halfway in the ground
         meshInstance = Instantiate(loadedObject, position, Quaternion.identity);//and finally, instantiate the asset
-        GloabalGameManager.instance.localGameManager.meshInstanceModel = meshInstance.GetComponent<MeshObjectModel>();
+        GloabalGameManager.instance.localGameManager.meshInstanceModel = meshInstance.GetComponent<MeshObjectController>();
 
         bundle.Unload(false);                                                   //clean up after the deed is done. be careful to not unload assets in use,
                                                                                 //but keep in mind: this leaves copies!

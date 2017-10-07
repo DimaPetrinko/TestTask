@@ -2,11 +2,16 @@
   {
     "bundleName": "straightmeshes",
     "assetName": "AwesomeCube",
-    "offset":  0.5
+    "offset": 0.5
   },
   {
     "bundleName": "curvymeshes",
     "assetName": "AmazingSphere",
+    "offset": 0.5
+  },
+  {
+    "bundleName": "curvymeshes",
+    "assetName": "PrettyCoolSphere",
     "offset": 0.5
   },
   {

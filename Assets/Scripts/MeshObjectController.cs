@@ -1,34 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class MeshObjectModel : MonoBehaviour
+public class MeshObjectController : MonoBehaviour
 {
-    public string dataFileName;
+    public string dataFileName;                     //the name of the data file (scvriptable object)
 
-    private MeshObjectData meshObjectData;
-    private MeshRenderer meshRenderer;
+    private MeshObjectData meshObjectData;          //the data itself
+    private MeshRenderer meshRenderer;              //to be able to change the color
     private int clickCount = 0;
-    private Color color;
+    private Color color;                            //current color
 
     private void OnEnable()
     {
-        InputHandler.OnColliderHit += AddClicks;
+        InputHandler.OnColliderHit += AddClicks;    //subscribing to the click event...
     }
 
     private void OnDisable()
     {
-        InputHandler.OnColliderHit -= AddClicks;
+        InputHandler.OnColliderHit -= AddClicks;    //...and unsubscribing from it
     }
 
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        StartCoroutine(LoadDataFromRecources());
+        StartCoroutine(LoadDataFromRecources());    //method name explains it all :) it also calls UpdateColor() 
     }
 
-    public void AddClicks(Vector3 point, int layer)
+    public void AddClicks(Vector3 point, int layer) //this method is subscribed to the click event
     {
-        if (layer == gameObject.layer)
+        if (layer == gameObject.layer)              //this sript can alway be on a mesh object and there can only be one of them
         {
             clickCount++;
             //Debug.Log("added a click! its " + clickCount + " now!");
@@ -40,14 +40,14 @@ public class MeshObjectModel : MonoBehaviour
     {
         if (meshObjectData != null)
         {
-            for (int i = 0; i < meshObjectData.clicksData.Count; i++)
+            for (int i = 0; i < meshObjectData.clicksData.Count; i++)               //check what range current click count falls into
             {
                 if (InRange(clickCount, meshObjectData.clicksData[i].minClicksCount, meshObjectData.clicksData[i].maxClicksCount))
                 {
                     color = meshObjectData.clicksData[i].color;
                 }
             }
-            //foreach (var clickData in meshObjectData.clicksData)
+            //foreach (var clickData in meshObjectData.clicksData)                  //the story tells about the bad foreach monster. it is handy tho
             //{
             //    if (InRange(clickCount, clickData.minClicksCount, clickData.maxClicksCount))
             //    {
@@ -68,7 +68,7 @@ public class MeshObjectModel : MonoBehaviour
         UpdateColor();
     }
 
-    private static bool InRange(int f, int a, int b)
+    private static bool InRange(int f, int a, int b)        //returns true if f is between a and b
     {
         return (f >= a && f <= b);
     }

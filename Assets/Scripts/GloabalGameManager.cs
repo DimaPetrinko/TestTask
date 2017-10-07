@@ -18,7 +18,7 @@ public class GloabalGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnLevelIsLoaded;
+        SceneManager.sceneLoaded += OnLevelIsLoaded;                //the new way to do OnLevelWasLoaded()
     }
 
     private void OnDisable()

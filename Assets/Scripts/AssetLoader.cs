@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AssetLoader : MonoBehaviour
 {
+    public LayerMask spawnMask;                                     //specifies where can the object be spawned
     public string jsonFileName;                                     //pretty explanatory
 
     GameObject meshInstance;                                        //keeps track of the old mesh to then delete it
@@ -15,9 +16,20 @@ public class AssetLoader : MonoBehaviour
         meshBundleInfo = JsonHelper.getJsonArray<MeshBundleInfo>(jsonString);
     }
 
-    public void LoadAndInstantiate(Vector3 position)
+    private void OnEnable()
     {
-        StartCoroutine(InstantiateFromBundle(position));
+        InputHandler.OnColliderHit += LoadAndInstantiate;
+    }
+
+    private void OnDisable()
+    {
+        InputHandler.OnColliderHit -= LoadAndInstantiate;
+    }
+
+    public void LoadAndInstantiate(Vector3 position, int layer)
+    {
+        if (InputHandler.CheckLayer(spawnMask, layer))
+            StartCoroutine(InstantiateFromBundle(position));
     }
 
     IEnumerator InstantiateFromBundle(Vector3 position)

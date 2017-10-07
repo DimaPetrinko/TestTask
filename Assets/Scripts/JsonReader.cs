@@ -22,6 +22,6 @@ public class JsonHelper                                                         
     [System.Serializable]
     private class Wrapper<T>                                                    //an intermediate class that has generic array member
     {
-        public T[] array;
+        public T[] array = null;
     }
 }

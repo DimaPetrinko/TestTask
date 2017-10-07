@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MeshObjectModel : MonoBehaviour
 {
-    public MeshObjectData meshObjectData;
+    public string dataFileName;
 
+    private MeshObjectData meshObjectData;
     private MeshRenderer meshRenderer;
     private int clickCount = 0;
     private Color color;
@@ -21,7 +23,7 @@ public class MeshObjectModel : MonoBehaviour
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        UpdateColor();
+        StartCoroutine(LoadDataFromRecources());
     }
 
     public void AddClicks(Vector3 point, int layer)
@@ -45,11 +47,28 @@ public class MeshObjectModel : MonoBehaviour
                     color = meshObjectData.clicksData[i].color;
                 }
             }
+            //foreach (var clickData in meshObjectData.clicksData)
+            //{
+            //    if (InRange(clickCount, clickData.minClicksCount, clickData.maxClicksCount))
+            //    {
+            //        color = clickData.color;
+            //    }
+            //}
             meshRenderer.sharedMaterial.color = color;
         }
+        else Debug.Log("Mesh object data is null");
     }
 
-    private bool InRange(int f, int a, int b)
+    private IEnumerator LoadDataFromRecources()
+    {
+        ResourceRequest request = Resources.LoadAsync<MeshObjectData>( "MeshObjectData/" + dataFileName);
+        yield return request;
+
+        meshObjectData = request.asset as MeshObjectData;
+        UpdateColor();
+    }
+
+    private static bool InRange(int f, int a, int b)
     {
         return (f >= a && f <= b);
     }

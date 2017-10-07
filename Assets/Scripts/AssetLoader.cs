@@ -5,6 +5,7 @@ using UnityEngine;
 public class AssetLoader : MonoBehaviour
 {
     public LayerMask spawnMask;                                     //specifies where can the object be spawned
+    public string jsonDirectory;
     public string jsonFileName;                                     //pretty explanatory
 
     GameObject meshInstance;                                        //keeps track of the old mesh to then delete it
@@ -12,7 +13,7 @@ public class AssetLoader : MonoBehaviour
 
     private void Start()
     {
-        string jsonString = JsonReader.GetJsonString(Application.streamingAssetsPath + "/" + jsonFileName + ".json");
+        string jsonString = JsonReader.GetJsonString(Application.streamingAssetsPath + "/" + jsonDirectory + "/" + jsonFileName + ".json");
         meshBundleInfo = JsonHelper.getJsonArray<MeshBundleInfo>(jsonString);
     }
 

@@ -5,8 +5,16 @@ public static class JsonReader
 {
     public static string GetJsonString(string path)                             //reads the json file and returns its content. uses System.IO
     {
-        string jsonString = File.ReadAllText(path);
-        return jsonString;
+        if (File.Exists(path))
+        {
+            string jsonString = File.ReadAllText(path);
+            return jsonString;
+        }
+        else
+        {
+            Debug.LogError("File does not exist");
+            return "";
+        }
     }
 }
 

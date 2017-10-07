@@ -5,12 +5,14 @@ public class LocalGameManager : MonoBehaviour   //this manager is local to every
 {
     public AssetLoader assetLoader;             
     public InputHandler inputHandler;
+    public UIController uiController;
     public string dataFileName;
 
     [HideInInspector]
     public MeshObjectController meshInstanceController;
 
     private GameData gameData;
+    private int timeElapsed = 0;
 
     private void OnEnable()
     {
@@ -38,8 +40,19 @@ public class LocalGameManager : MonoBehaviour   //this manager is local to every
         meshInstanceController.UpdateColor(randomColor);
     }
 
+    private IEnumerator Tick()
+    {
+        uiController.UpdateCounter(timeElapsed + "");
+        yield return new WaitForSeconds(1f);
+        timeElapsed++;
+        StopCoroutine(Tick());
+        StartCoroutine(Tick());
+    }
+
     private IEnumerator TickinBomb()
     {
+        timeElapsed = 0;
+        StartCoroutine(Tick());
         yield return new WaitForSeconds(gameData.timeTillUpdate);
         UpdateColor();
         StopAllCoroutines();

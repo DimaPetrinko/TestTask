@@ -48,7 +48,7 @@ public class AssetLoader : MonoBehaviour
 
         position += Vector3.up * meshBundleInfo[randomIndex].offset;            //hacky way to avoid spawning halfway in the ground
         meshInstance = Instantiate(loadedObject, position, Quaternion.identity);//and finally, instantiate the asset
-        GloabalGameManager.instance.localGameManager.meshInstanceModel = meshInstance.GetComponent<MeshObjectController>();
+        GloabalGameManager.instance.localGameManager.meshInstanceController = meshInstance.GetComponent<MeshObjectController>();
 
         bundle.Unload(false);                                                   //clean up after the deed is done. be careful to not unload assets in use,
                                                                                 //but keep in mind: this leaves copies!

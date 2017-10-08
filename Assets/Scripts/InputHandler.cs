@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    public LayerMask MeshLayers;                                                                                //specifies which layers are the mesh layers
-
     public delegate void ClickEvent(Vector3 point, int layer);                                                  //click event
     public static event ClickEvent OnColliderHit;
 
@@ -22,24 +18,11 @@ public class InputHandler : MonoBehaviour
                 int layer = hit.collider.gameObject.layer;
 
                 OnColliderHit(hit.point, layer);                                                                //firing the event
-                /*
-                if (CheckLayer(spawnMask, layer))
-                {
-                    Debug.Log("can spawn on " + hit.collider.gameObject.name);
-                    GloabalGameManager.instance.localGameManager.assetLoader.LoadAndInstantiate(hit.point);     //if conditions are met get started with the loading
-                }
-                else if (CheckLayer(MeshLayers, layer))
-                {
-                    //hit.collider.gameObject.GetComponent<MeshObjectModel>().AddClicks();
-                    GloabalGameManager.instance.localGameManager.meshInstanceModel.AddClicks();
-                }
-                */
             }
-
         }
     }
 
-    public static bool CheckLayer(LayerMask mask, int layer)                                                          //returns true if the layer is included in the mask
+    public static bool CheckLayer(LayerMask mask, int layer)                                                    //returns true if the layer is included in the mask
     {
         return mask.value == (mask.value | (1 << layer));
     }

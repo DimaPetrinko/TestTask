@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UniRx;
 
-public class LocalGameManager : MonoBehaviour   //this manager is local to every scene. it holds instances of important scripts
+public class LocalGameManager : MonoBehaviour   //this manager is local to every scene. it also holds instances of important scripts
 {
     public AssetLoader assetLoader;             
     public InputHandler inputHandler;
@@ -14,8 +14,8 @@ public class LocalGameManager : MonoBehaviour   //this manager is local to every
     public MeshObjectController meshInstanceController;
 
     private GameData gameData;
-    //private int timeElapsed = 0;
-    public IntReactiveProperty TimeElapsed = new IntReactiveProperty();
+    private IntReactiveProperty TimeElapsed = new IntReactiveProperty(); //fancy reactive property
+    private CompositeDisposable disposables = new CompositeDisposable();    //list of all disposables (like coroutines)
 
     private void OnEnable()
     {
@@ -34,41 +34,31 @@ public class LocalGameManager : MonoBehaviour   //this manager is local to every
 
     private void Start()
     {
-        TimeElapsed.SubscribeToText(uiController.counter);
-
-        //int y = ((int c)  => c++);
+        TimeElapsed.SubscribeToText(uiController.counter);      //subscribing our reactive property to the counter
     }
-
-    CompositeDisposable disposables = new CompositeDisposable(); // field
 
     private void OnClick(Vector3 position, int layer)
     {
+        uiController.EnableCounter();
         StartTimer();
-        //Observable.
-        //StartCoroutine(TickinBomb());
     }
 
     private void StartTimer()
     {
-        disposables.Clear();
-        Debug.Log("Subscribing..");
-            TimeElapsed.Value = 0;
-        Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(x => ProcessTick(x)).AddTo(disposables);
+        disposables.Clear();                        //StopAllCoroutines equivalent
+        TimeElapsed.Value = 0;                      //for correct display
+        Observable.Interval(TimeSpan.FromSeconds(1)).Subscribe(x => ProcessTick(x)).AddTo(disposables); //each interval x increases by 1
     }
 
     private void ProcessTick(float seconds)
     {
-        seconds++;
-        Debug.Log("Tick");
-        TimeElapsed.Value = (int)seconds;
+        seconds++;                                  //because seconds is 0 based
+        TimeElapsed.Value = (int)seconds;           //changing the reactive property causes the subscribed UI.Text to update
         if (seconds >= gameData.timeTillUpdate)
         {
-            UpdateColor();
-            StartTimer();
+            UpdateColor();                          
+            StartTimer();                           //start over
         }
-        //else
-        //{
-        //}
     }
 
     private void UpdateColor()
@@ -76,25 +66,6 @@ public class LocalGameManager : MonoBehaviour   //this manager is local to every
         Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
         meshInstanceController.UpdateColor(randomColor);
     }
-
-    //private IEnumerator Tick()
-    //{
-    //    uiController.UpdateCounter(timeElapsed + "");
-    //    yield return new WaitForSeconds(1f);
-    //    timeElapsed++;
-    //    StopCoroutine(Tick());
-    //    StartCoroutine(Tick());
-    //}
-
-    //private IEnumerator TickinBomb()
-    //{
-    //    timeElapsed = 0;
-    //    StartCoroutine(Tick());
-    //    yield return new WaitForSeconds(gameData.timeTillUpdate);
-    //    UpdateColor();
-    //    StopAllCoroutines();
-    //    StartCoroutine(TickinBomb());
-    //}
 
     private IEnumerator LoadDataFromRecources()
     {
